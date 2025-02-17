@@ -12,48 +12,111 @@ import edu.escuelaing.app.AppSvr.server.DefaultResponse;
 import edu.escuelaing.app.AppSvr.EciBoot;
 
 public class HttpServer {
-    private static Map<String, BiFunction<Request, String, String>> servicios = new HashMap<>();
+    private static Map<String, BiFunction<Request, String, String>> servicios = new ConcurrentHashMap<>();
     private static String staticFilePath = "target/classes/archivesPractice";
     private static volatile boolean running = true;
-    private static ExecutorService threadPool = Executors.newCachedThreadPool();
+    private static ExecutorService threadPool;
+    private static ServerSocket serverSocket;
+    private static final int SHUTDOWN_TIMEOUT = 60;
+    private static final int MAX_THREADS = 50;
+    private static final int QUEUE_CAPACITY = 100;
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        ServerSocket serverSocket = new ServerSocket(35000);
+        threadPool = new ThreadPoolExecutor(
+                10,
+                MAX_THREADS,
+                60L,
+                TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(QUEUE_CAPACITY),
+                new ThreadPoolExecutor.CallerRunsPolicy()
+        );
+
+        serverSocket = new ServerSocket(35000);
         System.out.println("Servidor HTTP corriendo en el puerto 35000");
-
         EciBoot.loadComponents();
+        setupShutdownHook();
+        startConsoleListener();
 
+        while (running) {
+            try {
+                Socket clientSocket = serverSocket.accept();
+                threadPool.submit(() -> handleClientConnection(clientSocket));
+            } catch (SocketException e) {
+                if (running) {
+                    System.err.println("Error aceptando conexión: " + e.getMessage());
+                }
+            } catch (IOException e) {
+                System.err.println("Error de IO: " + e.getMessage());
+            }
+        }
+    }
+
+    private static void setupShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Iniciando apagado por señal del sistema...");
+            shutdown();
+        }));
+    }
+
+    private static void startConsoleListener() {
         new Thread(() -> {
             try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
                 while (running) {
                     if (consoleReader.readLine().equalsIgnoreCase("shutdown")) {
-                        System.out.println("Apagando el servidor...");
-                        running = false;
-                        serverSocket.close();
-                        threadPool.shutdown();
-                        if (!threadPool.awaitTermination(5, TimeUnit.SECONDS)) {
-                            System.out.println("Forzando el apagado de tareas pendientes...");
-                            threadPool.shutdownNow();
-                        }
-                        System.out.println("Servidor apagado.");
+                        System.out.println("Iniciando apagado por comando...");
+                        shutdown();
+                        break;
                     }
                 }
-            } catch (IOException | InterruptedException e) {
-                System.err.println("Error durante el apagado: " + e.getMessage());
+            } catch (IOException e) {
+                System.err.println("Error en el lector de consola: " + e.getMessage());
             }
         }).start();
+    }
 
-        while (running) {
-            Socket clientSocket = serverSocket.accept();
-            OutputStream out = clientSocket.getOutputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    private static void shutdown() {
+        running = false;
+        System.out.println("Iniciando secuencia de apagado...");
 
+        // Cerrar el ServerSocket primero para no aceptar nuevas conexiones
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+        } catch (IOException e) {
+            System.err.println("Error cerrando el servidor: " + e.getMessage());
+        }
+        if (threadPool != null && !threadPool.isShutdown()) {
+            threadPool.shutdown();
+            try {
+                if (!threadPool.awaitTermination(SHUTDOWN_TIMEOUT, TimeUnit.SECONDS)) {
+                    System.out.println("Forzando terminación de tareas pendientes...");
+                    threadPool.shutdownNow();
+                    if (!threadPool.awaitTermination(5, TimeUnit.SECONDS)) {
+                        System.err.println("Algunas tareas no pudieron ser terminadas!");
+                    }
+                }
+            } catch (InterruptedException e) {
+                threadPool.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        System.out.println("Servidor apagado exitosamente.");
+    }
+
+    private static void handleClientConnection(Socket clientSocket) {
+        try (
+                clientSocket;
+                OutputStream out = clientSocket.getOutputStream();
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+        ) {
             String inputLine;
             boolean isFirstLine = true;
             String file = "";
             String queryString = "";
 
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = in.readLine()) != null && running) {
                 if (isFirstLine) {
                     String[] parts = inputLine.split(" ");
                     file = parts[1];
@@ -67,35 +130,30 @@ public class HttpServer {
                 if (!in.ready()) break;
             }
 
+            if (!running) return;
+
             Request request = new Request(queryString);
             System.out.println("Solicitud recibida: " + file + " | Query: " + queryString);
 
             if (isStaticFile(file)) {
-                System.out.println("Sirviendo archivo estático: " + file);
                 serveStaticFiles(file, out);
-            }
-            else {
+            } else {
                 String response;
                 if (servicios.containsKey(file)) {
                     response = processRequest(file, request);
-                    System.out.println("Respuesta desde servicio registrado: " + response);
-                }
-                else if (EciBoot.services.containsKey(file)) {
+                } else if (EciBoot.services.containsKey(file)) {
                     Map<String, String> queryParams = parseQueryString(queryString);
                     response = processEciBootRequest(file, queryParams);
-                    System.out.println("Respuesta desde EciBoot: " + response);
-                }
-                else {
+                } else {
                     response = "HTTP/1.1 404 Not Found\r\n\r\n{\"error\": \"Recurso no encontrado\"}";
-                    System.out.println("Recurso no encontrado: " + file);
                 }
                 out.write(response.getBytes());
-                out.close();
             }
-            in.close();
-            clientSocket.close();
+        } catch (IOException e) {
+            if (running) {
+                System.err.println("Error manejando la conexión del cliente: " + e.getMessage());
+            }
         }
-        serverSocket.close();
     }
 
     private static String processEciBootRequest(String path, Map<String, String> queryParams) {
