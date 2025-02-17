@@ -6,6 +6,6 @@ edu\escuelaing\app\AppSvr\controllers\MathController.class
 edu\escuelaing\app\AppSvr\controllers\GreetingController.class
 edu\escuelaing\app\AppSvr\EciBoot.class
 edu\escuelaing\app\AppSvr\server\DefaultResponse.class
-edu\escuelaing\app\AppSvr\RestController.class
 edu\escuelaing\app\AppSvr\GetMapping.class
+edu\escuelaing\app\AppSvr\RestController.class
 edu\escuelaing\app\AppSvr\server\HttpServer.class

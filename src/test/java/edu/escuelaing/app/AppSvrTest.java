@@ -6,9 +6,20 @@ import edu.escuelaing.app.AppSvr.EciBoot;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
+import edu.escuelaing.app.AppSvr.server.Request;
+import java.io.IOException;
+import java.net.Socket;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.*;
+import java.net.*;
 public class AppSvrTest {
     private static Thread serverThread;
+    private static int port;
+    private static final String DefaultResponse = "Respuesta por defecto"; // Definir antes de usar
+
 
     @BeforeAll
     public static void setUp() {
@@ -102,5 +113,55 @@ public class AppSvrTest {
         Set<String> registeredServices = EciBoot.services.keySet();
         assertTrue(registeredServices.contains("/greeting"), "El servicio '/greeting' debe estar registrado.");
         assertTrue(registeredServices.contains("/square"), "El servicio '/square' debe estar registrado.");
+    }
+
+    @Test
+    public void testEmptyQueryString() {
+        String queryString = "";
+
+        Request request = new Request(queryString);
+
+        assertNull(request.getValues("name"));
+        assertNull(request.getValues("age"));
+        assertNull(request.getValues("city"));
+    }
+
+    @Test
+    public void testDuplicateParameters() {
+        String queryString = "name=John&name=Alice&age=25";
+        Request request = new Request(queryString);
+        assertEquals("Alice", request.getValues("name"));
+        assertEquals("25", request.getValues("age"));
+    }
+
+    @Test
+    public void testSingleParameter() {
+        String queryString = "name=John";
+        Request request = new Request(queryString);
+        assertEquals("John", request.getValues("name"));
+    }
+
+    @Test
+    public void testSpecialCharactersInParameters() {
+        String queryString = "name=John Doe&message=Hello%20World";
+        Request request = new Request(queryString);
+        assertEquals("John Doe", request.getValues("name"));
+        assertEquals("Hello%20World", request.getValues("message"));
+    }
+
+
+    @Test
+    public void testMultipleParameters() {
+        Request request = new Request("name=John&age=25&city=Bogota");
+        assertEquals("John", request.getValues("name"), "El valor de 'name' debe ser 'John'");
+        assertEquals("25", request.getValues("age"), "El valor de 'age' debe ser '25'");
+        assertEquals("Bogota", request.getValues("city"), "El valor de 'city' debe ser 'Bogota'");
+    }
+
+
+    @Test
+    public void testNullQueryString() {
+        Request request = new Request(null);
+        assertNull(request.getValues("name"), "El valor de 'name' debe ser null");
     }
 }

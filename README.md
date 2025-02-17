@@ -191,6 +191,36 @@ Por qué la prueba: Verifica que el cálculo del cuadrado se realice correctamen
 Qué prueba: Confirma que las rutas /greeting y /square están registradas en el servidor.
 Por qué la prueba: Asegura que los servicios esperados existen en la aplicación y pueden manejar solicitudes.
 
+11. testEmptyQueryString
+
+Qué prueba: Este test verifica que cuando se recibe una cadena de consulta vacía, el servidor no encuentre valores para los parámetros y devuelva null para todos los parámetros solicitados.  
+Por qué la prueba: Asegura que el servidor maneje correctamente las solicitudes sin parámetros en la cadena de consulta. Si no se manejan correctamente, podría causar errores o resultados inesperados.
+
+12. testDuplicateParameters
+
+Qué prueba: Este test verifica que si un parámetro de consulta aparece varias veces, como name=John&name=Alice, el servidor debe devolver el último valor de ese parámetro (Alice).  
+Por qué la prueba: Es fundamental para garantizar que el servidor maneje adecuadamente los parámetros duplicados. Si el servidor no lo hace bien, podría generar resultados incorrectos.
+
+13. testSingleParameter
+
+Qué prueba: Este test verifica que, cuando se recibe un solo parámetro de consulta, como name=John, el servidor devuelva el valor correcto de ese parámetro.
+Por qué la prueba: Es una prueba básica para asegurar que el servidor maneja correctamente los parámetros simples en la cadena de consulta. Si falla, podría indicar un problema con el manejo de parámetros.
+
+14. testSpecialCharactersInParameters
+
+Qué prueba: Este test verifica que los parámetros de consulta que contienen caracteres especiales, como espacios o caracteres codificados (por ejemplo, %20), sean procesados correctamente.
+Por qué la prueba: Es crucial asegurarse de que el servidor pueda manejar caracteres especiales en los parámetros de consulta. Un error en esta prueba podría llevar a que los parámetros no sean interpretados correctamente, afectando la funcionalidad.
+
+15. testMultipleParameters
+
+Qué prueba: Este test verifica que el servidor pueda manejar correctamente múltiples parámetros en la cadena de consulta y devolver los valores esperados.
+Por qué la prueba: Verifica que el servidor maneje correctamente solicitudes con múltiples parámetros, lo cual es común en muchas aplicaciones. Si falla, podría indicar que el servidor no procesa correctamente las consultas complejas.
+
+16. testNullQueryString
+
+Qué prueba: Este test verifica que, cuando se recibe una cadena de consulta nula (null), el servidor no genere errores y devuelva null para los parámetros solicitados. 
+Por qué la prueba: Esta prueba asegura que el servidor maneje adecuadamente las solicitudes con cadenas de consulta nulas. Si no se maneja correctamente, podría generar excepciones o comportamientos inesperados.
+
 ### Y pruebas de estilo de código
 
 El propósito principal de estas pruebas es asegurar que el servidor funcione de manera estable y confiable, respondiendo correctamente a diferentes solicitudes y manejando errores de forma adecuada. Estas pruebas ayudan a prevenir problemas en producción al detectar posibles fallos desde el desarrollo.
