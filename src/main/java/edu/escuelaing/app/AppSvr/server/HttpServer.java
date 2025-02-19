@@ -13,7 +13,7 @@ import edu.escuelaing.app.AppSvr.EciBoot;
 
 public class HttpServer {
     private static Map<String, BiFunction<Request, String, String>> servicios = new ConcurrentHashMap<>();
-    private static String staticFilePath = "target/classes/archivesPractice";
+    private static String staticFilePath = "/app/static";
     private static volatile boolean running = true;
     private static ExecutorService threadPool;
     private static ServerSocket serverSocket;
@@ -62,7 +62,8 @@ public class HttpServer {
         new Thread(() -> {
             try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
                 while (running) {
-                    if (consoleReader.readLine().equalsIgnoreCase("shutdown")) {
+                    String input = consoleReader.readLine();
+                    if (input != null && input.equalsIgnoreCase("shutdown")) {
                         System.out.println("Iniciando apagado por comando...");
                         shutdown();
                         break;
@@ -78,7 +79,6 @@ public class HttpServer {
         running = false;
         System.out.println("Iniciando secuencia de apagado...");
 
-        // Cerrar el ServerSocket primero para no aceptar nuevas conexiones
         try {
             if (serverSocket != null && !serverSocket.isClosed()) {
                 serverSocket.close();
@@ -206,7 +206,7 @@ public class HttpServer {
     }
 
     private static void serveStaticFiles(String filePath, OutputStream out) throws IOException {
-        String basePath = "target/classes/archivesPractice";
+        String basePath = "/app/static";
         File requestedFile = new File(basePath + filePath);
         String contentType = determineContentType(filePath);
 
