@@ -5,7 +5,7 @@
 
 Se debe clonar el proyecto localmente con el comando:
 
-` git clone https://github.com/lalaro/LAB3AREP.git`
+` git clone https://github.com/lalaro/LAB4AREP.git`
 
 Y luego revisar las intrucciones a continuación para el manejo de soluciones del proyecto.
 
@@ -65,17 +65,18 @@ En el diagrama se establece el puerto 35000 utilizado para la comunicación y la
 
 Desarrollo del lab:
 
-1. Para su primera versión cargue el POJO desde la línea de comandos , de manera similar al framework de TEST. Es decir pásela como parámetro cuando invoque el framework. Ejemplo de invocación:
+Para la tarea usted debe construir una aplicación web y desplegarla en AWS usando EC2 y Docker. Para la implementación debe utilizar su framework (NO UTILIZAR SPRING), debe mejorar su framework para hacerlo concurrente y que se pueda apagar de manera elegante.
 
-java -cp target/classes co.edu.escuelaing.reflexionlab.MicroSpringBoot co.edu.escuelaing.reflexionlab.FirstWebService
+Entregables:
+El código del proyecto en un repositorio de GITHUB
+Un README que explique un resumen del proyecto, ls arquitectura, el diseño de clases y que muestre cómo generar las imágenes para desplegarlo. Además que muestre imágenes de cómo quedó desplegado cuando hicieron las pruebas.
+Video con los despliegues funcionando.
 
-Debemos tener en cuenta que este comando cambiara porque se va implementar en el servidor y todo va estar sobre la clase de **WebApplication**
-
-![image2.jpeg](src/main/resources/image2.jpeg)
-
-Entonces tendremos
+Retomando lo que se realizó anteriormente:
 
 ` java -version `
+
+Ya no es necesario copiar las dependencias porque ya se realiza desde el pom.xml
 ` mvn dependency:copy-dependencies `
 ` java -cp "target/classes;target/dependency/*" edu.escuelaing.app.AppSvr.server.WebApplication `
 
@@ -84,12 +85,6 @@ Para probar las clases que usan las anotaciones de forma independiente se puede:
 ` java -cp "target/classes;target/dependency/*" edu.escuelaing.app.AppSvr.server.WebApplication edu.escuelaing.appAppSvr.controller.GreetingController ` o ` java -cp "target/classes;target/dependency/*" edu.escuelaing.app.AppSvr.server.WebApplication edu.escuelaing.appAppSvr.controller.MathController `
 
 ![image3.jpeg](src/main/resources/image3.jpeg)
-
-Es necesario traer las dependencias, ya que si no se traen no puede explorar el directorio raiz, con las respectivas anotaciones
-
-![image3.1.jpeg](src/main/resources/image3.1.jpeg)
-
-![image20.jpeg](src/main/resources/image20.jpeg)
 
 Para probar todo el funcionamiento podemos traer las rutas del WebApplication, HttpServer, GreetingController y MathController.
 http://localhost:35000/greeting?name=Laura
@@ -128,6 +123,109 @@ http://localhost:35000/hello
 El resumen en nuestra consola de nuestras busquedas se verá así:
 ![image29.jpeg](src/main/resources/image29.jpeg)
 ![image30.jpeg](src/main/resources/image30.jpeg)
+
+Para un apagado elegante se verá así:
+
+
+Y de forma concurrente se tiene:
+
+Antes:
+
+![image6.jpeg](src/main/resources/image6.jpeg)
+
+Después:
+
+![image7.jpeg](src/main/resources/image7.jpeg)
+
+Dockerizado y despliegue en AWS:
+
+Configuración basica de AWS:
+
+Paso 1:
+
+![image8.jpeg](src/main/resources/image8.jpeg)
+
+Paso 2:
+
+![image9.jpeg](src/main/resources/image9.jpeg)
+
+Paso 3:
+
+![image10.jpeg](src/main/resources/image10.jpeg)
+
+Paso 4:
+
+![image10.2.jpeg](src/main/resources/image10.2.jpeg)
+
+Paso 5:
+
+![image10.3.jpeg](src/main/resources/image10.3.jpeg)
+
+Paso 6:
+
+![image10.1.jpeg](src/main/resources/image10.1.jpeg)
+
+Paso 7:
+
+![image11.jpeg](src/main/resources/image11.jpeg)
+
+Paso 8:
+
+![image12.jpeg](src/main/resources/image12.jpeg)
+
+Paso 9:
+
+![image13.jpeg](src/main/resources/image13.jpeg)
+
+Paso 10:
+
+![image14.jpeg](src/main/resources/image14.jpeg)
+
+Paso 11:
+
+![image15.jpeg](src/main/resources/image15.jpeg)
+
+Paso 12:
+
+![image16.jpeg](src/main/resources/image16.jpeg)
+
+Paso 13:
+
+![image17.jpeg](src/main/resources/image17.jpeg)
+
+Paso 14:
+
+![image18.jpeg](src/main/resources/image18.jpeg)
+
+Paso 15:
+
+![image18.1.jpeg](src/main/resources/image18.1.jpeg)
+
+Paso 16:
+
+![image19.jpeg](src/main/resources/image19.jpeg)
+
+Paso 17:
+
+![image19.1.jpeg](src/main/resources/image19.1.jpeg)
+
+Paso 18:
+
+![image19.2.jpeg](src/main/resources/image19.2.jpeg)
+
+Paso 19:
+
+![image19.3.jpeg](src/main/resources/image19.3.jpeg)
+
+
+Configuración basica de Docker:
+
+![image31.jpeg](src/main/resources/image31.jpeg)
+
+
+El trabajó final de la implementación se verá así:
+
+Video resumen [Video de Dockerizado y despliegue en AWS](https://youtu.be/OsjT7THiUjQ).
 
 ## Ejecutando las pruebas
 
@@ -245,6 +343,10 @@ Así se vera:
 
 * [Maven](https://maven.apache.org/) - Gestión de dependencias.
 * [Java](https://www.java.com/es/) - Versionamiento en Java.
+* [GitHub](https://docs.github.com/es) - Sistema de control de versiones distribuido.
+* [IntelliJ](https://www.jetbrains.com/es-es/idea/) - Entorno de desarrollo integrado.
+* [AWS](https://docs.aws.amazon.com/es_es/) - Amazon Web Services / plataforma de servicios de nube.
+* [Docker](https://docs.docker.com/) - Tecnología en contenedores que permite crear y usar contenedores Linux.
 
 ## Contribuyendo
 
@@ -256,7 +358,7 @@ Usamos [SemVer](http://semver.org/) para el versionado.
 
 ## Autores
 
-* **Laura Valentina Rodríguez Ortegón** - *Lab3 AREP* - [Repositorio](https://github.com/lalaro/LAB3AREP.git)
+* **Laura Valentina Rodríguez Ortegón** - *Lab4 AREP* - [Repositorio](https://github.com/lalaro/LAB4AREP.git)
 
 ## Licencia
 
