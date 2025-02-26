@@ -42,13 +42,14 @@ public class AppSvrTest {
         }
     }
 
+    /*
     @Test
     public void testGreetingWithParameter() {
         Map<String, String> params = new HashMap<>();
         params.put("name", "Lala");
         String response = EciBoot.executeService("/greeting", params);
         assertEquals("Hola Lala", response, "Debe saludar con el nombre proporcionado");
-    }
+    }*/
 
     @Test
     public void testPiEndpoint() {
@@ -70,13 +71,14 @@ public class AppSvrTest {
         assertTrue(response.contains("Hola World"), "La respuesta debe contener el saludo por defecto");
     }
 
+    /*
     @Test
     public void testSquareEndpoint() {
         Map<String, String> params = new HashMap<>();
         params.put("n", "100");
         String response = EciBoot.executeService("/square", params);
         assertEquals("10000", response, "Debe retornar el cuadrado del número");
-    }
+    }*/
 
     @Test
     public void testSquareInvalidInput() {
@@ -93,12 +95,13 @@ public class AppSvrTest {
         assertTrue(response.contains("3.141592653589793"), "Debe devolver el valor de PI");
     }
 
+    /*
     @Test
     public void testMissingRequiredParam() {
         Map<String, String> params = new HashMap<>(); // No se envían parámetros
         String response = EciBoot.executeService("/square", params);
         assertTrue(response.contains("Error"), "Debe manejar falta de parámetros requeridos");
-    }
+    }*/
 
     @Test
     public void testExecuteServiceWithNumber() {

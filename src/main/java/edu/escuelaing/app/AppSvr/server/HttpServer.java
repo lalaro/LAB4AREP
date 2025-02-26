@@ -63,7 +63,11 @@ public class HttpServer {
             try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
                 while (running) {
                     String input = consoleReader.readLine();
-                    if (input != null && input.equalsIgnoreCase("shutdown")) {
+                    if (input == null) {
+                        System.out.println("Consola cerrada, terminando listener...");
+                        break;
+                    }
+                    if (input.equalsIgnoreCase("shutdown")) {
                         System.out.println("Iniciando apagado por comando...");
                         shutdown();
                         break;
@@ -74,6 +78,7 @@ public class HttpServer {
             }
         }).start();
     }
+
 
     private static void shutdown() {
         running = false;
