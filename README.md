@@ -74,7 +74,7 @@ Video con los despliegues funcionando.
 
 Retomando lo que se realizó anteriormente:
 
-En el Link del lab 3 está a detalle los cambiso en las clases respectivas y demás:
+En el Link del lab 3 está a detalle los cambios en las clases respectivas y demás:
 
 https://github.com/lalaro/LAB3AREP.git
 
@@ -150,14 +150,29 @@ Dockerizado y despliegue en AWS:
 
 Configuración basica de Docker:
 
-![image31.jpeg](src/main/resources/image31.jpeg)
+Se crearan los siguientes archivos en la raiz de nuestro proyecto:
+
+![image34.jpeg](src/main/resources/image34.jpeg)
+![image35.jpeg](src/main/resources/image35.jpeg)
+
+
+Se configura Docker para subir los cambios locales del proyecto
+
 ![image31.1.jpeg](src/main/resources/image31.1.jpeg)
 ![image31.2.jpeg](src/main/resources/image31.2.jpeg)
+
+En nuestro Docker local se verá así:
+
 ![image31.3.jpeg](src/main/resources/image31.3.jpeg)
+
+Luego de subir el archivo Dockerizado se verá así:
+
+![image31.jpeg](src/main/resources/image31.jpeg)
+
 
 Configuración basica de AWS:
 
-Paso 1:
+Paso 1: Iniciar el lab de AWS
 
 ![image8.jpeg](src/main/resources/image8.jpeg)
 
@@ -165,19 +180,19 @@ Paso 2:
 
 ![image9.jpeg](src/main/resources/image9.jpeg)
 
-Paso 3:
+Paso 3: Ir a la sección de instancias
 
 ![image10.jpeg](src/main/resources/image10.jpeg)
 
-Paso 4:
+Paso 4: Lanzar una nueva instancia
 
 ![image10.2.jpeg](src/main/resources/image10.2.jpeg)
 
-Paso 5:
+Paso 5: Configurar en EE.UU (Norte de Virginia)
 
 ![image10.3.jpeg](src/main/resources/image10.3.jpeg)
 
-Paso 6:
+Paso 6: Configurar 
 
 ![image10.1.jpeg](src/main/resources/image10.1.jpeg)
 
@@ -197,15 +212,15 @@ Paso 10:
 
 ![image14.jpeg](src/main/resources/image14.jpeg)
 
-Paso 11:
+Paso 11: Esperar a que se cree la instancia
 
 ![image15.jpeg](src/main/resources/image15.jpeg)
 
-Paso 12:
+Paso 12: La instancia se iniciara
 
 ![image16.jpeg](src/main/resources/image16.jpeg)
 
-Paso 13:
+Paso 13: La sección de la instancia
 
 ![image17.jpeg](src/main/resources/image17.jpeg)
 
@@ -213,23 +228,23 @@ Paso 14:
 
 ![image18.jpeg](src/main/resources/image18.jpeg)
 
-Paso 15:
+Paso 15: Como es creada en EC2, la ubicaremos ahí
 
 ![image18.1.jpeg](src/main/resources/image18.1.jpeg)
 
-Paso 16:
+Paso 16: Podemos revisar los detalles de la instancia
 
 ![image19.jpeg](src/main/resources/image19.jpeg)
 
-Paso 17:
+Paso 17: Configuraremos nuestras reglas de entrada y salida
 
 ![image19.1.jpeg](src/main/resources/image19.1.jpeg)
 
-Paso 18:
+Paso 18: Nos dara el link de prueba en DNS de IPv4 pública
 
 ![image19.2.jpeg](src/main/resources/image19.2.jpeg)
 
-Paso 19:
+Paso 19: Es importante detener o eliminar la instancia para que no se de un consumo innecesario
 
 ![image19.3.jpeg](src/main/resources/image19.3.jpeg)
 
