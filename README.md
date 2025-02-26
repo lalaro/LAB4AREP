@@ -74,6 +74,10 @@ Video con los despliegues funcionando.
 
 Retomando lo que se realizó anteriormente:
 
+En el Link del lab 3 está a detalle los cambiso en las clases respectivas y demás:
+
+https://github.com/lalaro/LAB3AREP.git
+
 ` java -version `
 
 Ya no es necesario copiar las dependencias porque ya se realiza desde el pom.xml
@@ -126,6 +130,11 @@ El resumen en nuestra consola de nuestras busquedas se verá así:
 
 Para un apagado elegante se verá así:
 
+![image4.jpeg](src\main\resources\image4.jpeg)
+![image4.1.jpeg](src\main\resources\image4.1.jpeg)
+![image4.2.jpeg](src\main\resources\image4.2.jpeg)
+![image4.3.jpeg](src\main\resources\image4.3.jpeg)
+
 
 Y de forma concurrente se tiene:
 
@@ -138,6 +147,13 @@ Después:
 ![image7.jpeg](src/main/resources/image7.jpeg)
 
 Dockerizado y despliegue en AWS:
+
+Configuración basica de Docker:
+
+![image31.jpeg](src/main/resources/image31.jpeg)
+![image31.1.jpeg](src/main/resources/image31.1.jpeg)
+![image31.2.jpeg](src/main/resources/image31.2.jpeg)
+![image31.3.jpeg](src/main/resources/image31.3.jpeg)
 
 Configuración basica de AWS:
 
@@ -217,12 +233,6 @@ Paso 19:
 
 ![image19.3.jpeg](src/main/resources/image19.3.jpeg)
 
-
-Configuración basica de Docker:
-
-![image31.jpeg](src/main/resources/image31.jpeg)
-
-
 El trabajó final de la implementación se verá así:
 
 Video resumen [Video de Dockerizado y despliegue en AWS](https://youtu.be/OsjT7THiUjQ).
@@ -236,6 +246,8 @@ Podemos Abrir en terminal el proyecto y ejecutar las pruebas desde el PowerShell
 O de igual forma en el ID que deseemos.
 
 Así se vera:
+
+![image32.jpeg](src/main/resources/image32.jpeg)
 
 ### Desglose en pruebas de extremo a extremo
 
@@ -337,7 +349,7 @@ O de igual forma en el ID que deseemos.
 
 Así se vera:
 
-
+![image33.jpeg](src/main/resources/image33.jpeg)
 
 ## Construido con
 
