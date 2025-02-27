@@ -131,11 +131,10 @@ El resumen en nuestra consola de nuestras busquedas se verá así:
 
 Para un apagado elegante se verá así:
 
-![image4.jpeg](src\main\resources\image4.jpeg)
-![image4.1.jpeg](src\main\resources\image4.1.jpeg)
-![image4.2.jpeg](src\main\resources\image4.2.jpeg)
-![image4.3.jpeg](src\main\resources\image4.3.jpeg)
-
+![image4.jpeg](src/main/resources/image4.jpeg)
+![image4.1.jpeg](src/main/resources/image4.1.jpeg)
+![image4.2.jpeg](src/main/resources/image4.2.jpeg)
+![image4.3.jpeg](src/main/resources/image4.3.jpeg)
 
 Y de forma concurrente se tiene:
 
