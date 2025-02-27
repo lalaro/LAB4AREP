@@ -62,6 +62,7 @@ Explicación de arquitectura:
 
 Este diagrama representa una arquitectura de sistema distribuido que involucra un cliente web, un servidor HTTP y un servidor backend, todos comunicándose a través de una red local. El cliente web realiza solicitudes al servidor HTTP, donde el servidor tiene manejo de rutas (API), con los controladores asignados (/square, /pi, /greeting), quien a su vez puede solicitar datos JSON al servidor backend. Además, el servidor HTTP sirve archivos estáticos (HTML, CSS, JS, PNG, JPEG) directamente al cliente.
 En el diagrama se establece el puerto 35000 utilizado para la comunicación y la especificación de la ruta GET. El Local Server indica que todos los componentes residen en el mismo entorno local.
+Para facilitar el despliegue y la escalabilidad, se ha integrado Docker y AWS. El código del servidor backend se empaqueta en una imagen Docker utilizando un Dockerfile. Esta imagen se sube (push) a AWS Elastic Container Registry (ECR). Luego, se lanza una instancia EC2 en AWS y se instala el motor de Docker. La instancia EC2 extrae (pull) la imagen de ECR y ejecuta la aplicación en un contenedor Docker. El cliente web accede a la aplicación desplegada en la instancia EC2 a través de un navegador (browse), y el tráfico se dirige a la instancia EC2 para llegar al servidor HTTP y al backend.
 
 Desarrollo del lab:
 
